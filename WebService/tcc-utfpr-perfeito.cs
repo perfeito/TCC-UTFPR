@@ -14,20 +14,14 @@ namespace app.perfeito
     {
         [FunctionName("verify_access")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
-            ILogger log)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req)
         {
-            log.LogInformation("Function processed a request.");
 
-            string codeId = req.Query["code_id"];
+            var content = await new StreamReader(req.Body).ReadToEndAsync();
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            codeId = codeId ?? data?.name;
-
-            if (!string.IsNullOrEmpty(codeId))
+            if (!string.IsNullOrEmpty(content.Trim()))
             {
-                if(codeId.Equals("8467287462376492"))
+                if(content.Trim().Equals("C08C71B92E79"))
                 {
                     var result1 = new ObjResult("true", "access granted");
                     return new OkObjectResult(result1);
