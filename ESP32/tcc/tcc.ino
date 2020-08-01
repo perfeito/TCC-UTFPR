@@ -4,11 +4,11 @@
 #include "BluetoothSerial.h" 
 
 //wifi
-const char* ssid       = "moto g7";
-const char* password   = "4467bc157f6a";
+//const char* ssid       = "moto g7";
+//const char* password   = "4467bc157f6a";
 
-//const char* ssid       = "Windows Phone3836";
-//const char* password   = "5#5L80t4";
+const char* ssid       = "Windows Phone3836";
+const char* password   = "5#5L80t4";
 
 //const char* ssid       = "TP-LINK_38AC";
 //const char* password   = "05742189";
@@ -16,6 +16,7 @@ const char* password   = "4467bc157f6a";
 String BT_CALLBACK = "";
 String BT_READ_LINE = "";
 
+//const String base_url = "http://d5e6793ca93b.ngrok.io/api/verify_access";
 const String base_url = "http://tcc-utfpr-perfeito.azurewebsites.net/api/verify_access";
 
 BluetoothSerial SerialBT;
