@@ -10,6 +10,11 @@
 const char* ssid       = "Windows Phone3836";
 const char* password   = "5#5L80t4";
 
+//led
+int LED_PIN_R = 26;
+int LED_PIN_G = 27;
+int LED_PIN_B = 25;
+
 //const char* ssid       = "TP-LINK_38AC";
 //const char* password   = "05742189";
 
@@ -43,17 +48,32 @@ void httpGETRequest(String key) {
     if(httpCode == 200){
       SerialBT.println("SIM");
       Serial.println("SIM");
+
+      digitalWrite(LED_PIN_G, HIGH);
+      delay(1000);
+      digitalWrite(LED_PIN_G, LOW);
+      delay(1000);
     }
     else {
       SerialBT.println("NAO");
       Serial.println("NAO");
       Serial.println(httpCode);
       Serial.println("Error on HTTP request");
+
+      digitalWrite(LED_PIN_R, HIGH);
+      delay(1000);
+      digitalWrite(LED_PIN_R, LOW);
+      delay(1000);
     }
     http.end();
   }
   else {
     Serial.println("WiFi Disconnected");
+    delay(1000);
+
+    digitalWrite(LED_PIN_R, HIGH);
+    delay(1000);
+    digitalWrite(LED_PIN_R, LOW);
     delay(1000);
   }
 }
@@ -79,29 +99,41 @@ void initBluetooth() {
   SerialBT.register_callback(BTCallback);
   
   Serial.println("Bluetooth Device is Ready to Pair");
+
+  digitalWrite(LED_PIN_R, HIGH);
+  digitalWrite(LED_PIN_B, HIGH);
+  delay(1000);
+  digitalWrite(LED_PIN_R, LOW);
+  digitalWrite(LED_PIN_B, LOW);
+  delay(1000);
 }
 
 void BTCallback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
 {
     if(event == ESP_SPP_SRV_OPEN_EVT)
     {
-        BT_CALLBACK = "BTonConnect";
-        Serial.println("BT CONNECTION STABLISHED");
+      BT_CALLBACK = "BTonConnect";
+      Serial.println("BT CONNECTION STABLISHED");
+
+      digitalWrite(LED_PIN_B, HIGH);
+      delay(1000);
+      digitalWrite(LED_PIN_B, LOW);
+      delay(1000);
     }
     else if(event == ESP_SPP_CLOSE_EVT)
     {
-        ESP.restart();
-        Serial.println("BT CONNECTION CLOSED");
+      ESP.restart();
+      Serial.println("BT CONNECTION CLOSED");
     }
     else if(event == ESP_SPP_DATA_IND_EVT)
     {
-        BT_CALLBACK = "BTonReceivedStart";
-        Serial.println("BT DATA RECEIVED");
+      BT_CALLBACK = "BTonReceivedStart";
+      Serial.println("BT DATA RECEIVED");
     }
     else if(event == ESP_SPP_WRITE_EVT)
     {
-        BT_CALLBACK = "BTonWrite";
-        Serial.println("BT DATA WRITED");
+      BT_CALLBACK = "BTonWrite";
+      Serial.println("BT DATA WRITED");
     }
 }
 
@@ -129,13 +161,16 @@ void BTonReceivedEnd()
 void setup() {
   Serial.begin(115200);
 
+  pinMode(LED_PIN_R, OUTPUT);
+  pinMode(LED_PIN_G, OUTPUT);
+  pinMode(LED_PIN_B, OUTPUT);
+
   connectToWiFi();
 
   initBluetooth();
 }
 
 void loop() {
-
   if(BT_CALLBACK=="BTonReceivedStart")
   {
       BTonReceivedStart();
