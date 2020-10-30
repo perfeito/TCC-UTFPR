@@ -4,19 +4,13 @@
 #include "BluetoothSerial.h" 
 
 //wifi
-//const char* ssid       = "moto g7";
-//const char* password   = "4467bc157f6a";
-
-const char* ssid       = "Windows Phone3836";
-const char* password   = "5#5L80t4";
+const char* ssid       = "VIVOFIBRA-7479";
+const char* password   = "7223067479";
 
 //led
 int LED_PIN_R = 26;
 int LED_PIN_G = 27;
 int LED_PIN_B = 25;
-
-//const char* ssid       = "TP-LINK_38AC";
-//const char* password   = "05742189";
 
 String BT_CALLBACK = "";
 String BT_READ_LINE = "";
